@@ -13,9 +13,11 @@ import jxl.read.biff.BiffException;
  * @author renansantos
  */
 public class Main {
-    public static void main(String[] args) throws IOException{
+
+    public static void main(String[] args) throws IOException {
         String filePath = "/home/renansantos/Área de Trabalho/Estimativa_GoogleMaps_USAs.xls";
-        GoogleMapsTime gmt = new GoogleMapsTime(filePath);
-        gmt.getOrigins().forEach(System.out::println);
+        String directionsApiKey = "AIzaSyCgaZr9fRAUs3_8lftkt026_MfZ3yZVN4E";
+        GoogleMapsTime gmt = new GoogleMapsTime(filePath, directionsApiKey);
+        gmt.getEstimatedDurationUsingAPI(0, 4);
     }
 }
