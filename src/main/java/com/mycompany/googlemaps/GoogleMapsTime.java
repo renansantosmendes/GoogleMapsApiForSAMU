@@ -5,27 +5,12 @@
  */
 package com.mycompany.googlemaps;
 
-import com.google.maps.DirectionsApi;
-import com.google.maps.DirectionsApiRequest;
-import com.google.maps.GeoApiContext;
-import com.google.maps.model.DirectionsLeg;
-import com.google.maps.model.DirectionsResult;
-import com.google.maps.model.DirectionsRoute;
-import com.google.maps.model.TravelMode;
-import java.io.File;
-import java.io.IOException;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import jxl.Cell;
-import jxl.Sheet;
-import jxl.Workbook;
-import jxl.WorkbookSettings;
+import com.google.maps.*;
+import com.google.maps.model.*;
+import java.io.*;
+import java.time.*;
+import java.util.*;
+import jxl.*;
 import jxl.read.biff.BiffException;
 import org.joda.time.DateTime;
 
@@ -149,15 +134,11 @@ public class GoogleMapsTime {
             DirectionsApiRequest directionsApiRequestSAMU = DirectionsApi
                     .getDirections(geoApiContextSAMU, origins.get(i), destinations.get(i));
 
-            DateTime dt = new DateTime(2017, 9, 4, 23, 45);
-            System.out.println(dt);
-            System.out.println(occurrencesTime.get(i));
-            System.out.println(occurrencesTime.get(i).toLocalTime());
-
+            DateTime dt = returnsCorrectedDateTime(i);
+            //System.out.println(dt);
             LocalTime localTime = occurrencesTime.get(i).toLocalTime();
             LocalDate localDate = occurrencesTime.get(i).toLocalDate();
 
-            DateTime test = new DateTime();
             directionsApiRequestSAMU.alternatives(true);
             directionsApiRequestSAMU.mode(TravelMode.DRIVING).departureTime(dt);//TRANSIT é para ônibus
 
@@ -176,11 +157,33 @@ public class GoogleMapsTime {
                 DirectionsLeg[] directionsLeg2 = route[j].legs;
             }
 
-            directionsLegs.sort(Comparator.comparing(u -> u[0].duration.inSeconds));
+            directionsLegs.sort(Comparator.comparing(u -> u[0].durationInTraffic.inSeconds));
             DirectionsLeg[] leg = directionsLegs.get(0);
             //deve ser retornado o valor de leg[0]
-            //System.out.println("Best time = " + leg[0].durationInTraffic);
-            //directionsLegs.forEach(u -> System.out.println(u[0].duration));
+            System.out.println(leg[0].durationInTraffic);
+//            directionsLegs.forEach(u -> System.out.println(u[0].duration));
+//            directionsLegs.forEach(u -> System.out.println(u[0].durationInTraffic));
         }
+    }
+
+    public DateTime returnsCorrectedDateTime(int index) {
+        LocalDateTime occurrence = this.occurrencesTime.get(index);
+        LocalDateTime currentTime = LocalDateTime.now();
+        int WEEK_DAYS = 7;
+        DateTime dateTimeForGoogleMaps;
+
+        LocalDateTime intermediate = currentTime.plusDays(WEEK_DAYS);
+        LocalDateTime corrected = null;
+
+        int daysBetween = occurrence.getDayOfWeek().getValue() - currentTime.getDayOfWeek().getValue();
+        corrected = LocalDateTime.of(currentTime.getYear(), currentTime.getMonth(), intermediate.plusDays(daysBetween).getDayOfMonth(),
+                occurrence.getHour(), occurrence.getMinute());
+
+        return new DateTime(corrected.getYear(), corrected.getMonthValue(), corrected.getDayOfMonth(),
+                corrected.getHour(), corrected.getMinute());
+    }
+
+    private static boolean isTheSameWeekDay(LocalDateTime occurrenceTime, LocalDateTime currentTime) {
+        return occurrenceTime.getDayOfWeek() == currentTime.getDayOfWeek();
     }
 }
