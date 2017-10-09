@@ -5,6 +5,7 @@
  */
 package com.mycompany.googlemaps;
 
+import java.io.FileNotFoundException;
 import org.junit.Test;
 import java.time.*;
 import static org.junit.Assert.*;
@@ -20,10 +21,10 @@ public class GoogleMapsTimeTest {
     }
 
     @Test
-    public void testReturnsCorrectedDateTime() {
+    public void testReturnsCorrectedDateTime() throws FileNotFoundException {
         String filePath = "/home/renansantos/Área de Trabalho/Estimativa_GoogleMaps_USAs.xls";
         String directionsApiKey = "AIzaSyCgaZr9fRAUs3_8lftkt026_MfZ3yZVN4E";
-        GoogleMapsTime gmt = new GoogleMapsTime(filePath, directionsApiKey);
+        GoogleMapsTimeUsingExcelData gmt = new GoogleMapsTimeUsingExcelData(filePath, directionsApiKey);
 
         LocalDateTime current = LocalDateTime.now();
         LocalDateTime occurrence = LocalDateTime.of(2016, 5, 2, 15, 42);
