@@ -19,7 +19,7 @@ public class GoogleMapsTime {
         this.directionsApiKey = directionsApiKey;
     }
 
-    public String getNormalTimeBetween(String origin, String destination) {
+    public long getNormalTimeBetween(String origin, String destination) {
         
         GeoApiContext geoApiContextSAMU = new GeoApiContext().setApiKey(directionsApiKey);
         DirectionsApiRequest directionsApiRequestSAMU = DirectionsApi.getDirections(geoApiContextSAMU, origin, destination);
@@ -34,8 +34,8 @@ public class GoogleMapsTime {
         List<DirectionsLeg[]> directionsLegs = new ArrayList<>();
         DirectionsLeg[] leg = getMinimumTimeRoute(route, directionsLegs);
         
-        System.out.println("Normal time = " + leg[0].duration);
-        return leg[0].duration.toString();
+//        System.out.println("Normal time = " + leg[0].duration);
+        return leg[0].duration.inSeconds;
     }
 
     private DirectionsResult makeConnectionInServer(DirectionsResult routes, DirectionsApiRequest directionsApiRequestSAMU) {
@@ -57,7 +57,7 @@ public class GoogleMapsTime {
         return leg;
     }
 
-    public String getTrafficTimeBetween(String origin, String destination, LocalDateTime occurrenceTime) {
+    public long getTrafficTimeBetween(String origin, String destination, LocalDateTime occurrenceTime) {
 
         GeoApiContext geoApiContextSAMU = new GeoApiContext().setApiKey(directionsApiKey);
         DirectionsApiRequest directionsApiRequestSAMU = DirectionsApi.getDirections(geoApiContextSAMU, origin, destination);
@@ -77,10 +77,10 @@ public class GoogleMapsTime {
             List<DirectionsLeg[]> directionsLegs = new ArrayList<>();
             DirectionsLeg[] leg = getMinimumTimeRoute(route, directionsLegs);
 
-            System.out.println("Time With Traffic = " + leg[0].durationInTraffic);
-            return leg[0].durationInTraffic.toString();
+//            System.out.println("Time With Traffic = " + leg[0].durationInTraffic);
+            return leg[0].durationInTraffic.inSeconds;
         } else {
-            return null;
+            return -1;
         }
     }
 

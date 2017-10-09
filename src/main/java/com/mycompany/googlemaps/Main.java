@@ -15,7 +15,12 @@ public class Main {
 
         GoogleMapsTime google = new GoogleMapsTime(directionsApiKey);
         google.getNormalTimeBetween(origin, destination);
+        long normalTime = google.getNormalTimeBetween(origin, destination);
+        System.out.println("normal time = " + normalTime/60 + " minutes");
+        
         google.getTrafficTimeBetween(origin, destination, ldt);
+        long trafficTime = google.getTrafficTimeBetween(origin, destination, ldt);
+        System.out.println("traffic time = " + trafficTime/60 + " minutes");
     }
 
 }
