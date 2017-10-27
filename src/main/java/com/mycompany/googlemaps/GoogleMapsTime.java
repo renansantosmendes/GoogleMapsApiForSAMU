@@ -93,7 +93,7 @@ public class GoogleMapsTime {
         LocalDateTime corrected = null;
 
         int daysBetween = occurrenceTime.getDayOfWeek().getValue() - currentTime.getDayOfWeek().getValue();
-        corrected = LocalDateTime.of(currentTime.getYear(), currentTime.getMonth(), intermediate.plusDays(daysBetween).getDayOfMonth(),
+        corrected = LocalDateTime.of(intermediate.getYear(), intermediate.getMonth(), intermediate.plusDays(daysBetween).getDayOfMonth(),
                 occurrenceTime.getHour(), occurrenceTime.getMinute());
 
         return new DateTime(corrected.getYear(), corrected.getMonthValue(), corrected.getDayOfMonth(),
