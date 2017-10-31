@@ -85,7 +85,8 @@ public class GoogleMapsTime {
     }
 
     public DateTime returnsCorrectedDateTime(LocalDateTime occurrenceTime) {
-        LocalDateTime currentTime = LocalDateTime.now();
+//        LocalDateTime currentTime = LocalDateTime.now();
+        LocalDateTime currentTime = LocalDateTime.of(2017,10,10,0,0);
         int WEEK_DAYS = 7;
         DateTime dateTimeForGoogleMaps;
 

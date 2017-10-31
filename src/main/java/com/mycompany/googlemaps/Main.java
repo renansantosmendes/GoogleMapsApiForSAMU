@@ -11,7 +11,7 @@ public class Main {
         String directionsApiKey = "AIzaSyB6QWiZU8P2KZDlTeW2_r1QVrnkoHglUuk";// AIzaSyCgaZr9fRAUs3_8lftkt026_MfZ3yZVN4E
         String origin = "rua estér augusta ribeiro, camargos, belo horizonte";
         String destination = "praça sete de setembro, centro, belo horizonte";
-        LocalDateTime ldt = LocalDateTime.of(2017, 10, 20, 12, 0);
+        LocalDateTime ldt = LocalDateTime.of(2017, 1, 2, 22, 0);
         LocalDateTime ldt2 = LocalDateTime.of(2017, 10, 22, 12, 0);
 
         GoogleMapsTime google = new GoogleMapsTime(directionsApiKey);
